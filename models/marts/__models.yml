@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: fornecedores_aportes
+    description: Base consolidada dos fornecedores
+    columns:
+      - name: cod_forn
+        description: Valor deve ser unico e sem duplicidade.
+        tests:
+          - not_null
+          - unique
+  
+  - name: resumo_perdas
+    description: Perda DEPOSITO e FILIAL consolidada

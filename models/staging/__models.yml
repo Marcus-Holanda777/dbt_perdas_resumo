@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: stg_fornecedor_pai
+    description: Tratamento das bases para o fornecedor pai
+    columns:
+      - name: cod_forn
+        description: So pode ser unico e não pode ser nulo.
+        tests:
+          - not_null
+          - unique
+  
+  - name: stg_fornecedor_comercial
+    description: Tratamento das bases para o fornecedor comercial
+    columns:
+      - name: cod_forn
+        description: So pode ser unico e não pode ser nulo.
+        tests:
+          - not_null
+          - unique
+  
+  - name: stg_fornecedor_sap
+    description: Retorna os fornecedores com codigo SAP
+    columns:
+      - name: fornecedor_principal_sap
+        description: So pode ser unico e não pode ser nulo.
+        tests:
+          - not_null
+          - unique
+  
+  - name: stg_perdas_filial
+    description: Tratamento das bases de perda por filial
+  
+  - name: stg_perdas_deposito
+    description: Tratamento das bases de perda por deposito

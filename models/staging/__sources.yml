@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+  - name: prevencao-perdas
+    schema: prevencao-perdas
+    description: Bases da prevencao de perdas
+    tables:
+      - name: kardex_perdas
+        description: >
+           Base de perdas por filial, tipos de mov: 
+           (EA, SA, EO, SO, E6, S6, E9, S9, EX, SX, EY, SY, SQ, E2, SZ)
+      - name: kardex_perdas_cd
+        description: Base de perdas por Deposito
+      - name: cosmos_v14b_dbo_produto_mestre
+        description: Relacao dos produtos cadastrados
+      - name: cosmos_v14b_dbo_negociacao_aporte
+        description: Negociacao com os fornecedores
+      - name: cosmos_v14b_dbo_debito_fornecedor
+        description: Notas de debito gerada pelo fonecedor
+      - name: cosmos_v14b_dbo_fornecedor
+        description: Cadastro dos fornecedores
+      - name: cosmos_v14b_dbo_grupo_fornecedores_aporte_cab
+        description: Fornecedores com o ultimo cadastro na negociacao
+      - name: cosmos_v14b_dbo_grupo_fornecedores_aporte_det
+        description: Detalhe dos fornecedores com o ultimo cadastro na negociacao
+      - name: cosmos_v14b_dbo_deposito
+        description: Cadastro dos depositos
+  
+  - name: planejamento_comercial
+    schema: planejamento_comercial
+    description: Bases do setor comercial
+    tables:
+      - name: dim_produtos
