@@ -81,3 +81,7 @@ jobs:
 
       - name: Run dbt test
         run: dbt test
+      
+      - name: Run run
+        run: |
+          dbt run --vars '{"start": "'$DATA_INICIO'", "end": "'$DATA_FIM'"}'
