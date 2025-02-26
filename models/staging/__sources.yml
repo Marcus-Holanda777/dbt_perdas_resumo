@@ -10,7 +10,12 @@ sources:
            Base de perdas por filial, tipos de mov: 
            (EA, SA, EO, SO, E6, S6, E9, S9, EX, SX, EY, SY, SQ, E2, SZ)
       - name: kardex_perdas_cd
-        description: Base de perdas por Deposito
+        description: >
+           Base de perdas por Deposito
+           Documento XXXX_DEPOSITO, modelo antigo
+           Ducumento SY_, SX_DEPOSITO, modelo novo
+           Ducumento G01, 03, 09 reversa
+           (EA, SA, EO, SO, E6, S6, E9, S9, EX, SX, EY, SY, SQ, E2, SZ)
       - name: cosmos_v14b_dbo_produto_mestre
         description: Relacao dos produtos cadastrados
       - name: cosmos_v14b_dbo_negociacao_aporte
