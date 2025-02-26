@@ -17,7 +17,7 @@
 {{ 
     return(
       [
-        ("inventarios", "in('EA', 'SA') and kade_tx_nr_docto LIKE '%/%' "), 
+        ("inventarios", "in('EA', 'SA') and kade_tx_nr_docto LIKE '%/%'"),
         ("ajustes", "in('EO', 'SO', 'E6', 'S6', 'E9', 'S9') or (sub_tipo in('EA', 'SA') and kade_tx_nr_docto NOT LIKE '%/%')"),
         ("avarias", "LIKE 'SX%'"),
         ("vencidos", "LIKE 'SY%'"),

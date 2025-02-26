@@ -1,35 +1,35 @@
-WITH view_forn_sap AS (
-    SELECT
+with view_forn_sap as (
+    select
         forn_cd_fornecedor,
         fsma_codigo_sap_master,
         xxxx_dh_cad
-    FROM {{ source('prevencao-perdas', 'cosmos_v14b_dbo_fornecedor') }}
-    WHERE fsma_codigo_sap_master IS NOT null
+    from {{ source('prevencao-perdas', 'cosmos_v14b_dbo_fornecedor') }}
+    where fsma_codigo_sap_master is not null
 ),
 
-add_duplicate AS (
-    SELECT
+add_duplicate as (
+    select
         *,
-        row_number()
-            OVER (
-                PARTITION BY fsma_codigo_sap_master
-                ORDER BY xxxx_dh_cad DESC
+        ROW_NUMBER()
+            over (
+                partition by fsma_codigo_sap_master
+                order by xxxx_dh_cad desc
             )
-            AS id
-    FROM view_forn_sap
+            as id
+    from view_forn_sap
 ),
 
-drop_duplicate AS (
-    SELECT *
-    FROM add_duplicate
-    WHERE id = 1
+drop_duplicate as (
+    select *
+    from add_duplicate
+    where id = 1
 ),
 
-final AS (
-    SELECT
-        fsma_codigo_sap_master AS fornecedor_principal_sap,
+final as (
+    select
+        fsma_codigo_sap_master as fornecedor_principal_sap,
         forn_cd_fornecedor
-    FROM drop_duplicate
+    from drop_duplicate
 )
 
-SELECT * FROM final
+select * from final

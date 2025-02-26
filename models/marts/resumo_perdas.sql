@@ -17,10 +17,10 @@
     )
 }}
 
-WITH final AS (
-    SELECT * FROM {{ ref('stg_perdas_filial') }}
-    UNION ALL
-    SELECT * FROM {{ ref('stg_perdas_deposito') }}
+with final as (
+    select * from {{ ref('stg_perdas_filial') }}
+    union all
+    select * from {{ ref('stg_perdas_deposito') }}
 )
 
-SELECT * FROM final
+select * from final

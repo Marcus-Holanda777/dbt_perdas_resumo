@@ -13,7 +13,7 @@ spacing_before = touch
 line_position = trailing
 
 [sqlfluff:rules:capitalisation.keywords] 
-capitalisation_policy = upper
+capitalisation_policy = lower
 
 [sqlfluff:rules:aliasing.table]
 aliasing = explicit

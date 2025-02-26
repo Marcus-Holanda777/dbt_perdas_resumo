@@ -1,0 +1,76 @@
+name: Atualizacao das perdas
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  pipeline:
+    name: Rodar e atualizar perda do mes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12.x
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt-core dbt-athena
+
+      - name: Configurar arquivo de PROFILE
+        run: |
+          mkdir -p ~/.dbt
+          echo "dbt_perdas_resumo:
+            outputs:
+              dev:
+                database: $DATABASE
+                region_name: $REGION_NAME
+                s3_data_dir: $S3_DATA_DIR
+                s3_staging_dir: $S3_STAGING_DIR
+                schema: $SCHEMA
+                threads: 5
+                type: athena
+            target: dev" > ~/.dbt/profiles.yml
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+          S3_DATA_DIR: ${{ secrets.S3_DATA_DIR }}
+          S3_STAGING_DIR: ${{ secrets.S3_STAGING_DIR }}
+          REGION_NAME: ${{ secrets.REGION_NAME }}
+          DATABASE: ${{ secrets.AWS_DATABASE }}
+          SCHEMA: ${{ secrets.AWS_SCHEMA }}
+      
+      - name: Definir variáveis de data
+        run: |
+          HOJE=$(date +%Y-%m-%d)
+          DIA_ATUAL=$(date +%d)
+  
+          if [ "$DIA_ATUAL" -le 5 ]; then
+            DATA_INICIO=$(date -d "$(date +%Y-%m-01) -1 month" +"%Y-%m-%d")
+            DATA_FIM=$HOJE
+          else
+            DATA_INICIO=$(date -d "$(date +%Y-%m-01)" +"%Y-%m-%d")
+            DATA_FIM=$(date -d "$(date +%Y-%m-01) +1 month -1 day" +"%Y-%m-%d")
+          fi
+  
+          echo "DATA_INICIO=$DATA_INICIO" >> $GITHUB_ENV
+          echo "DATA_FIM=$DATA_FIM" >> $GITHUB_ENV
+      
+      - name: Verificar variáveis
+        run: |
+          echo "Data início: $DATA_INICIO"
+          echo "Data fim: $DATA_FIM"
+        
+      - name: Run dbt debug
+        run: dbt debug
+
+      - name: Run dbt test
+        run: dbt test
+  

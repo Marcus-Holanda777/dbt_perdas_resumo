@@ -1,35 +1,35 @@
-WITH view_forn_comercial AS (
-    SELECT
-        "codigo fornecedor principal deposito" AS cod_forn,
-        "fornecedor comercial" AS forn_comercial
-    FROM {{ source('planejamento_comercial', 'dim_produtos') }}
+with view_forn_comercial as (
+    select
+        "codigo fornecedor principal deposito" as cod_forn,
+        "fornecedor comercial" as forn_comercial
+    from {{ source('planejamento_comercial', 'dim_produtos') }}
 ),
 
-renamed AS (
-    SELECT
-        CAST(COALESCE(TRY_CAST(cod_forn AS DOUBLE), 0) AS INT) AS cod_forn,
-        {{ strip_normalize("forn_comercial") }} AS forn_comercial
-    FROM view_forn_comercial
+renamed as (
+    select
+        CAST(COALESCE(TRY_CAST(cod_forn as DOUBLE), 0) as INT) as cod_forn,
+        {{ strip_normalize("forn_comercial") }} as forn_comercial
+    from view_forn_comercial
 ),
 
-filter_forn AS (
-    SELECT * FROM renamed
-    WHERE cod_forn > 0
+filter_forn as (
+    select * from renamed
+    where cod_forn > 0
 ),
 
-add_duplicates AS (
-    SELECT
+add_duplicates as (
+    select
         *,
-        ROW_NUMBER() OVER (PARTITION BY cod_forn) AS id
-    FROM filter_forn
+        ROW_NUMBER() over (partition by cod_forn) as id
+    from filter_forn
 ),
 
-final AS (
-    SELECT
+final as (
+    select
         cod_forn,
         forn_comercial
-    FROM add_duplicates
-    WHERE id = 1
+    from add_duplicates
+    where id = 1
 )
 
-SELECT * FROM final
+select * from final

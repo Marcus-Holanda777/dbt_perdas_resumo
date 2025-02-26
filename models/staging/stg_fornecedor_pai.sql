@@ -1,49 +1,49 @@
-WITH view_forn_pai AS (
-    SELECT
+with view_forn_pai as (
+    select
         pai.data_hora_cadastro,
         filho.codigo_fornecedor,
         pai.codigo_fornecedor_principal
-    FROM
+    from
         {{ source('prevencao-perdas', 'cosmos_v14b_dbo_grupo_fornecedores_aporte_cab') }}
-            AS pai
-    INNER JOIN
+            as pai
+    inner join
         {{ source('prevencao-perdas', 'cosmos_v14b_dbo_grupo_fornecedores_aporte_det') }}
-            AS filho
-        ON
+            as filho
+        on
             pai.id_grupo_fornecedores_aporte_cab
             = filho.id_grupo_fornecedores_aporte_cab
 ),
 
-add_row_number AS (
-    SELECT
+add_row_number as (
+    select
         *,
-        row_number()
-            OVER (
-                PARTITION BY codigo_fornecedor
-                ORDER BY data_hora_cadastro DESC
+        ROW_NUMBER()
+            over (
+                partition by codigo_fornecedor
+                order by data_hora_cadastro desc
             )
-            AS id
-    FROM view_forn_pai
+            as id
+    from view_forn_pai
 ),
 
-drop_duplicates AS (
-    SELECT
+drop_duplicates as (
+    select
         codigo_fornecedor,
         codigo_fornecedor_principal
-    FROM add_row_number
-    WHERE id = 1
+    from add_row_number
+    where id = 1
 ),
 
-final AS (
-    SELECT
-        codigo_fornecedor AS cod_forn,
-        codigo_fornecedor_principal AS cod_forn_pai,
-        {{ strip_normalize("forn_nm_fantasia") }} AS forn_nm_pai,
-        {{ cnpj_normalize("forn_tn_cnpj") }} AS cnpj_forn_pai
-    FROM drop_duplicates AS pai
-    INNER JOIN
-        {{ source('prevencao-perdas', 'cosmos_v14b_dbo_fornecedor') }} AS forn
-        ON pai.codigo_fornecedor_principal = forn.forn_cd_fornecedor
+final as (
+    select
+        codigo_fornecedor as cod_forn,
+        codigo_fornecedor_principal as cod_forn_pai,
+        {{ strip_normalize("forn_nm_fantasia") }} as forn_nm_pai,
+        {{ cnpj_normalize("forn_tn_cnpj") }} as cnpj_forn_pai
+    from drop_duplicates as pai
+    inner join
+        {{ source('prevencao-perdas', 'cosmos_v14b_dbo_fornecedor') }} as forn
+        on pai.codigo_fornecedor_principal = forn.forn_cd_fornecedor
 )
 
-SELECT * FROM final
+select * from final
