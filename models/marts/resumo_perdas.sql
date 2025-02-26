@@ -14,6 +14,7 @@
             "OPTIMIZE {{ this.render_pure() }} REWRITE DATA USING BIN_PACK",
             "VACUUM {{ this.render_pure() }}",
         ],
+        on_schema_change='sync_all_columns'
     )
 }}
 

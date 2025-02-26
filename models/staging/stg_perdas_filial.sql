@@ -49,7 +49,7 @@ add_tipo_perdas as (
 
 coalesce_tipos as (
     select
-        filial,
+        filial as numero,
         cod_prod,
         'filial' as origem,
         periodo,
@@ -66,7 +66,7 @@ coalesce_tipos as (
 
 final as (
     select
-        filial,
+        numero,
         cod_prod,
         origem,
         {%- for coluna, eventos in tipos %}
