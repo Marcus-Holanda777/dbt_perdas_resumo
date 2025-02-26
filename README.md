@@ -1,13 +1,32 @@
-# ETL Perda re
+# Projeto de Transformação e Tratamento de Perdas
 
-Try running the following commands:
-- dbt run
-- dbt test
+## Descrição
+Este projeto tem como objetivo transformar e tratar os dados de perdas de depósitos e filiais, estruturando as informações para análise e tomada de decisão. Os dados são processados e transformados utilizando **dbt (Data Build Tool)** e, ao final, exportados para o **Amazon Athena**.
 
+## Tecnologias Utilizadas
+- **dbt**: Para transformar e modelar os dados de forma eficiente.
+- **Amazon Athena**: Para consulta e análise dos dados transformados.
+- **SQL**: Para manipulação e modelagem dos dados.
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+## Fluxo de Processamento
+1. **Transformação com dbt**: Modelagem dos dados para padronização e análise.
+2. **Exportação para Athena**: Disponibilização dos dados processados para consulta e relatórios.
+
+## Como Executar o Projeto
+1. Clone o repositório:
+   ```sh
+   git clone https://github.com/Marcus-Holanda777/dbt_perdas_resumo.git
+   ```
+2. Instale as dependências do dbt:
+   ```sh
+   pip install dbt-core dbt-athena
+   ```
+3. Configure as credenciais da AWS.
+4. Execute o dbt:
+   ```sh
+   dbt run
+   ```
+5. Consulte os dados no Athena.
+
+> [!IMPORTANT] 
+> Existe um agendamento configurado para rodar o processo diariamente às 9 da manhã via CI/CD.
