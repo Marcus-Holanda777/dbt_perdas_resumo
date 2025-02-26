@@ -44,8 +44,8 @@ jobs:
           S3_DATA_DIR: ${{ secrets.S3_DATA_DIR }}
           S3_STAGING_DIR: ${{ secrets.S3_STAGING_DIR }}
           REGION_NAME: ${{ secrets.REGION_NAME }}
-          DATABASE: ${{ secrets.AWS_DATABASE }}
-          SCHEMA: ${{ secrets.AWS_SCHEMA }}
+          DATABASE: ${{ secrets.DATABASE }}
+          SCHEMA: ${{ secrets.SCHEMA }}
       
       - name: Definir variáveis de data
         run: |
