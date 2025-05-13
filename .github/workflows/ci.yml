@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '19 9 * * 1-5'
+    - cron: '0 12 * * 1-5'
   workflow_dispatch:
 
 jobs:
@@ -69,7 +69,8 @@ jobs:
             DATA_INICIO=$(date -d "$(date +%Y-%m-01)" +"%Y-%m-%d")
             DATA_FIM=$(date -d "$(date +%Y-%m-01) +1 month -1 day" +"%Y-%m-%d")
           fi
-  
+          
+          echo "START: $(date)"
           echo "DATA_INICIO=$DATA_INICIO" >> $GITHUB_ENV
           echo "DATA_FIM=$DATA_FIM" >> $GITHUB_ENV
       
