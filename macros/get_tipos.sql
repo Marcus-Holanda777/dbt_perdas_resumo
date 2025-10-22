@@ -5,7 +5,7 @@
         ("inventarios", "'EA', 'SA', 'E9', 'S9'" ), 
         ("ajustes", "'EO', 'SO', 'E6', 'S6'"),
         ("avarias", "'EX', 'SX'"),
-        ("vencidos", "'EY', 'SY'"), 
+        ("vencidos", "'EY', 'SY', 'EN', 'SN'"), 
         ("seguros", "'E2', 'SQ'"), 
         ("doacoes", "'SZ'")
       ]
